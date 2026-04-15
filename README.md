@@ -128,10 +128,6 @@ Tabela gerada:
 silver.stg_cycle_trips
 ```
 
-### Modelagem Dimensional (Gold)
-Melhor formatar assim:
-
-```md
 ## Modelagem Dimensional (Gold)
 
 A camada gold foi modelada utilizando o padrão estrela.
