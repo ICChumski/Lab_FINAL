@@ -1,0 +1,29 @@
+version: 2
+
+models:
+  - name: fact_trip
+    columns:
+      - name: trip_key
+        tests:
+          - not_null
+          - unique
+
+      - name: trip_id
+        tests:
+          - not_null
+          - unique
+
+      - name: start_station_key
+        tests:
+          - not_null
+
+      - name: date_key
+        tests:
+          - not_null
+
+      - name: duration_bucket
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['short', 'medium', 'long']

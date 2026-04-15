@@ -1,0 +1,96 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: postgres_mobility
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - "${POSTGRES_PORT}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init_sql:/docker-entrypoint-initdb.d
+
+  airflow-init:
+    image: apache/airflow:2.9.3
+    container_name: airflow_init
+    depends_on:
+      - postgres
+    environment:
+      AIRFLOW__CORE__EXECUTOR: SequentialExecutor
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://mobility_user:mobility_pass@postgres:5432/mobility
+      AIRFLOW__CORE__LOAD_EXAMPLES: "False"
+      AIRFLOW__CORE__FERNET_KEY: ""
+    volumes:
+      - ./airflow/dags:/opt/airflow/dags
+      - ./scripts:/opt/airflow/scripts
+      - ./dbt:/opt/airflow/dbt
+      - ./data:/opt/airflow/data
+    command: >
+      bash -c "
+      pip install pandas sqlalchemy psycopg2-binary dbt-core dbt-postgres great_expectations &&
+      airflow db migrate &&
+      airflow users create --username airflow --password airflow --firstname Admin --lastname User --role Admin --email admin@example.com
+      "
+
+  airflow-webserver:
+    image: apache/airflow:2.9.3
+    container_name: airflow_webserver
+    restart: always
+    depends_on:
+      - postgres
+      - airflow-init
+    environment:
+      AIRFLOW__CORE__EXECUTOR: SequentialExecutor
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://mobility_user:mobility_pass@postgres:5432/mobility
+      AIRFLOW__CORE__LOAD_EXAMPLES: "False"
+      AIRFLOW__CORE__FERNET_KEY: ""
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./airflow/dags:/opt/airflow/dags
+      - ./scripts:/opt/airflow/scripts
+      - ./dbt:/opt/airflow/dbt
+      - ./data:/opt/airflow/data
+    command: >
+      bash -c "
+      pip install pandas sqlalchemy psycopg2-binary dbt-core dbt-postgres great_expectations &&
+      airflow webserver
+      "
+
+  airflow-scheduler:
+    image: apache/airflow:2.9.3
+    container_name: airflow_scheduler
+    restart: always
+    depends_on:
+      - postgres
+      - airflow-init
+    environment:
+      AIRFLOW__CORE__EXECUTOR: SequentialExecutor
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://mobility_user:mobility_pass@postgres:5432/mobility
+      AIRFLOW__CORE__LOAD_EXAMPLES: "False"
+      AIRFLOW__CORE__FERNET_KEY: ""
+    volumes:
+      - ./airflow/dags:/opt/airflow/dags
+      - ./scripts:/opt/airflow/scripts
+      - ./dbt:/opt/airflow/dbt
+      - ./data:/opt/airflow/data
+    command: >
+      bash -c "
+      pip install pandas sqlalchemy psycopg2-binary dbt-core dbt-postgres great_expectations &&
+      airflow scheduler
+      "
+
+  metabase:
+    image: metabase/metabase:latest
+    container_name: metabase_mobility
+    restart: always
+    depends_on:
+      - postgres
+    ports:
+      - "3000:3000"
+
+volumes:
+  postgres_data:

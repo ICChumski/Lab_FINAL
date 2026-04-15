@@ -1,0 +1,17 @@
+version: 2
+
+models:
+  - name: mart_trip_duration_patterns
+    description: "Padrões de duração das viagens por dia da semana."
+    columns:
+      - name: day_of_week
+        tests:
+          - not_null
+
+      - name: trip_count
+        tests:
+          - not_null
+
+      - name: avg_trip_duration_minutes
+        tests:
+          - not_null

@@ -1,0 +1,29 @@
+version: 2
+
+models:
+  - name: mart_station_hourly_demand
+    description: "Demanda horária por estação, com retiradas, devoluções e saldo líquido."
+    columns:
+      - name: station_id
+        tests:
+          - not_null
+
+      - name: station_name
+        tests:
+          - not_null
+
+      - name: trip_date
+        tests:
+          - not_null
+
+      - name: trip_hour
+        tests:
+          - not_null
+
+      - name: pickups
+        tests:
+          - not_null
+
+      - name: returns
+        tests:
+          - not_null

@@ -1,0 +1,29 @@
+version: 2
+
+models:
+  - name: mart_station_usage_summary
+    description: "Resumo por estação com retiradas, devoluções, uso total e índice de desbalanceamento."
+    columns:
+      - name: station_id
+        tests:
+          - not_null
+
+      - name: station_name
+        tests:
+          - not_null
+
+      - name: total_pickups
+        tests:
+          - not_null
+
+      - name: total_returns
+        tests:
+          - not_null
+
+      - name: total_movements
+        tests:
+          - not_null
+
+      - name: imbalance_ratio
+        tests:
+          - not_null

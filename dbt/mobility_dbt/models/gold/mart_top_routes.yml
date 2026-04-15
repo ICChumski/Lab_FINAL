@@ -1,0 +1,25 @@
+version: 2
+
+models:
+  - name: mart_top_routes
+    description: "Rotas mais frequentes entre estações, com quantidade de viagens e duração média."
+    columns:
+      - name: start_station_id
+        tests:
+          - not_null
+
+      - name: start_station_name
+        tests:
+          - not_null
+
+      - name: end_station_id
+        tests:
+          - not_null
+
+      - name: end_station_name
+        tests:
+          - not_null
+
+      - name: trip_count
+        tests:
+          - not_null

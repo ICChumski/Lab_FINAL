@@ -1,0 +1,40 @@
+version: 2
+
+models:
+  - name: stg_cycle_trips
+    description: "Camada silver com viagens tratadas do Santander Cycles."
+    columns:
+      - name: trip_id
+        description: "Identificador único da viagem."
+        tests:
+          - not_null
+          - unique
+
+      - name: started_at
+        description: "Data e hora de início da viagem."
+        tests:
+          - not_null
+
+      - name: start_station_id
+        description: "ID da estação de origem."
+        tests:
+          - not_null
+
+      - name: start_station_name
+        description: "Nome da estação de origem."
+        tests:
+          - not_null
+
+      - name: bike_id
+        description: "Identificador da bicicleta."
+        tests:
+          - not_null
+
+      - name: trip_duration_minutes
+        description: "Duração da viagem em minutos."
+
+      - name: trip_date
+        description: "Data da viagem."
+
+      - name: trip_hour
+        description: "Hora do início da viagem."

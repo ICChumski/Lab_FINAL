@@ -1,0 +1,10 @@
+version: 2
+
+sources:
+  - name: raw
+    database: mobility
+    schema: raw
+    description: "Camada raw com os dados brutos carregados do dataset de mobilidade."
+    tables:
+      - name: cycle_trips
+        description: "Tabela bruta com observações horárias do dataset."
