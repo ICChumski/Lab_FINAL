@@ -174,10 +174,7 @@ long → viagens longas
 
 Essa classificação é utilizada na tabela fato para análises comportamentais.
 
-### Testes com DBT
-Melhor assim:
 
-```md
 ## Testes com DBT
 
 Foram implementados testes automatizados para garantir a qualidade dos dados.
@@ -304,7 +301,6 @@ python scripts/01_download_bronze.py
 ```
 
 
-```md
 ## Orquestração com Airflow
 
 O pipeline foi orquestrado utilizando Apache Airflow.
